@@ -16,6 +16,10 @@ class TangoBot:
         print("turn right")
         return
 
+    def rotate():
+        print("rotate")
+        return
+
     # head pan controls
     def head_pan_left():
         print("pan head left")
@@ -41,6 +45,9 @@ class TangoBot:
     def waist_turn_left():
         print("turn waist left")
         return
+
+    def waist_turn():
+        print("waist control")
 
     # arm controls
     def arm1(self):
@@ -74,10 +81,14 @@ class TangoBot:
                 reverse()
             elif command == 'd':
                 move_right()
+            elif command == 'f':
+                rotate()
             elif command == 'z':
                 waist_turn_left()
             elif command == 'c':
                 waist_turn_right()
+            elif command == 'x':
+                waist_turn()
             elif command == 'i':
                 head_pan_up()
             elif command == 'j':
