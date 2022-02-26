@@ -1,25 +1,48 @@
 class TangoBot:
-    # These are the main movement controls    
-    def drvForward(self):
+
+    # These are the main movement controls
+    def move_forward():
         print("move forward")
         return
-    
-    
-    def drvRotateLeft(self):
+
+    def move_left():
         print("turn left")
         return
-    
-    
-    def drvBack(self):
-        print("move backward")
+
+    def reverse():
+        print("moving in reverse")
         return
-    
-    
-    def drvRotateRigth(self):
+
+    def move_right():
         print("turn right")
         return
-    
-    
+
+    # head pan controls
+    def head_pan_left():
+        print("pan head left")
+        return
+
+    def head_pan_right():
+        print("pan head right")
+        return
+
+    def head_pan_up():
+        print("pan head up")
+        return
+
+    def head_pan_down():
+        print("pan head down")
+        return
+
+    # waist turn controls
+    def waist_turn_right():
+        print("turn waist right")
+        return
+
+    def waist_turn_left():
+        print("turn waist left")
+        return
+
     if __name__ == '__main__':
         command = 1
         while command != '0':
@@ -30,11 +53,26 @@ class TangoBot:
             elif command == 'a':
                 move_left()
             elif command == 's':
-                move_back()
+                reverse()
             elif command == 'd':
                 move_right()
+            elif command == 'z':
+                waist_turn_left()
+            elif command == 'c':
+                waist_turn_right()
+            elif command == 'i':
+                head_pan_up()
+            elif command == 'j':
+                head_pan_left()
+            elif command == 'k':
+                head_pan_down()
+            elif command == 'l':
+                head_pan_right()
             else:
                 continue
         print("goodbye")
+
+
+
 
 
