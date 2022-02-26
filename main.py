@@ -19,7 +19,37 @@ class TangoBot:
         print("turn right")
         return
     
-    
+    # These are the waist motor
+    def waistTurn(self):
+        pass
+
+    # These are the head motors
+    def headHorizontal(self):
+        pass
+
+    def headVertical(self):
+        pass
+
+    # these are the arm motors
+    def arm1(self):
+        pass
+    def arm2(self):
+        pass
+    def arm3(self):
+        pass
+    def arm4(self):
+        pass
+    def arm5(self):
+        pass
+    def arm6(self):
+        pass
+
+
+
+
+
+
+
     if __name__ == '__main__':
         command = 1
         while command != '0':
