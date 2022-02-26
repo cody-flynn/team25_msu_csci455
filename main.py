@@ -40,6 +40,24 @@ class TangoBot:
         print("turn waist left")
         return
 
+    def arm1(self):
+        pass
+
+    def arm2(self):
+        pass
+
+    def arm3(self):
+        pass
+
+    def arm4(self):
+        pass
+
+    def arm5(self):
+        pass
+
+    def arm6(self):
+        pass
+
     if __name__ == '__main__':
         command = 1
         while command != '0':
