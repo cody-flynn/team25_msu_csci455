@@ -16,6 +16,7 @@ class TangoBot:
         print("turn right")
         return
 
+    # head pan controls
     def head_pan_left():
         print("pan head left")
         return
@@ -32,6 +33,7 @@ class TangoBot:
         print("pan head down")
         return
 
+    # waist turn controls
     def waist_turn_right():
         print("turn waist right")
         return
@@ -40,6 +42,7 @@ class TangoBot:
         print("turn waist left")
         return
 
+    # arm controls
     def arm1(self):
         pass
 
