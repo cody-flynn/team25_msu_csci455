@@ -1,5 +1,23 @@
 class TangoBot:
     # These are the main movement controls
+    usb=None
+    def __init__(self):
+        import serial, time, sys
+        try:
+            self.usb = serial.Serial('/dev/ttyACM0')
+            print(self.usb.name)
+            print(self.usb.baudrate)
+        
+        except:
+            try:
+                self.usb = serial.Serial('/dev/ttyACM1')
+                print(self.usb.name)
+                print(self.usb.baudrate)
+            except:
+                print("No servo serial ports found")
+                sys.exit(0);
+
+
     def move_forward():
         print("move forward")
         return
@@ -100,7 +118,18 @@ class TangoBot:
             else:
                 continue
         print("goodbye")
+###############
+###############
+bot=TangoBot()
 
+target = 4000
+lsb = target &0x7F
+msb = (target >> 7) & 0x7F
+cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(0x0B) + chr(lsb) + chr(msb)
+
+print("writing")
+bot.usb.write(cmd.encode('utf-8'))
+print("reading")
 
 
 
