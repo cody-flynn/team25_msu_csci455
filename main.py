@@ -1,8 +1,11 @@
 class TangoBot:
     # These are the main movement controls
     usb=None
+    waist=None
+    headv=None
+    headh=None
     def __init__(self):
-        import serial, time, sys
+        import serial, time, sys, keyboard
         try:
             self.usb = serial.Serial('/dev/ttyACM0')
             print(self.usb.name)
@@ -16,18 +19,30 @@ class TangoBot:
             except:
                 print("No servo serial ports found")
                 sys.exit(0);
+        self.waist=5800
+        self.waist_turn()
+        self.wait_init()
+        self.headv=5400
+        self.head_virtical()
+        self.wait_init()
+        self.headh=5900
+        self.head_horizontal()
+        self.wait_init()
 
+    def wait_init(self):
+        time.sleep(0.2)
 
-    def move_forward():
-        print("move forward")
-        target = 4000
+    def move_forward(self):
+        pass
+
+    def send(self,target,dev):
         lsb = target &0x7F
         msb = (target >> 7) & 0x7F
-        cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(0x04) + chr(lsb) + chr(msb)
+        cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(dev) + chr(lsb) + chr(msb)
 
-        print("writing")
+        # Wait for last byte to send
+        self.usb.flush()
         self.usb.write(cmd.encode('utf-8'))
-        print("reading")
         return
 
     def move_left():
@@ -47,33 +62,48 @@ class TangoBot:
         return
 
     # head pan controls
-    def head_pan_left():
-        print("pan head left")
+    def head_pan_left(self):
+        self.headh+=100
+        self.head_horizontal()
         return
 
-    def head_pan_right():
-        print("pan head right")
+    def head_pan_right(self):
+        self.headh-=100
+        self.head_horizontal()
         return
 
-    def head_pan_up():
+    def head_horizontal(self):
+        print("head l/r: " + str(self.headh))
+        self.send(self.headh,0x03)
+
+    def head_pan_up(self):
         print("pan head up")
-        return
+        self.headv+=100
+        self.head_virtical()
 
-    def head_pan_down():
+    def head_pan_down(self):
         print("pan head down")
-        return
+        self.headv-=100
+        self.head_virtical()
+
+    def head_virtical(self):
+        print("head u/d: " + str(self.headv))
+        self.send(self.headv,0x04)
 
     # waist turn controls
-    def waist_turn_right():
+    def waist_turn_right(self):
         print("turn waist right")
-        return
+        self.waist+=200
+        self.waist_turn()
 
-    def waist_turn_left():
+    def waist_turn_left(self):
         print("turn waist left")
+        self.waist-=200
+        self.waist_turn()
         return
 
-    def waist_turn():
-        print("waist control")
+    def waist_turn(self):
+        self.send(self.waist,0x02)
 
     # arm controls
     def arm1(self):
@@ -94,46 +124,45 @@ class TangoBot:
     def arm6(self):
         pass
 
-    if __name__ == '__main__':
-        command = 1
-        while command != '0':
-            print('Enter command:')
-            command = input()
-            if command == 'w':
-                move_forward()
-
-
-
-
-
-
-            elif command == 'a':
-                move_left()
-            elif command == 's':
-                reverse()
-            elif command == 'd':
-                move_right()
-            elif command == 'f':
-                rotate()
-            elif command == 'z':
-                waist_turn_left()
-            elif command == 'c':
-                waist_turn_right()
-            elif command == 'x':
-                waist_turn()
-            elif command == 'i':
-                head_pan_up()
-            elif command == 'j':
-                head_pan_left()
-            elif command == 'k':
-                head_pan_down()
-            elif command == 'l':
-                head_pan_right()
-            else:
-                continue
-        print("goodbye")
+    def command(self):
+        #if __name__ == '__main__':
+        #command = 1
+        #while command != '0':
+        #print('Enter command:')
+        #command = input()
+        if command == 'w':
+            self.move_forward()
+        elif command == 'a':
+            self.move_left()
+        elif command == 's':
+            self.reverse()
+        elif command == 'd':
+            self.move_right()
+        #elif command == 'f':
+            #self.rotate()
+        elif command == 'z':
+            self.waist_turn_left()
+        elif command == 'c':
+            self.waist_turn_right()
+        #elif command == 'x':
+            #self.waist_turn()
+        elif command == 'i':
+            self.head_pan_up()
+        elif command == 'j':
+            self.head_pan_left()
+        elif command == 'k':
+            self.head_pan_down()
+        elif command == 'l':
+            self.head_pan_right()
+        else:
+            continue
+        #print("goodbye")
 ###############
 ###############
+mybot = TangoBot()
+command=None
+while command != '0':
+print('Enter command:')
+command = input()
 
-
-
+mybot.command()
