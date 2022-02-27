@@ -99,7 +99,7 @@ class TangoBot:
                 cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(0x04) + chr(lsb) + chr(msb)
 
                 print("writing")
-                bot.usb.write(cmd.encode('utf-8'))
+                self.usb.write(cmd.encode('utf-8'))
                 print("reading")
 
 
@@ -134,16 +134,6 @@ class TangoBot:
         print("goodbye")
 ###############
 ###############
-bot=TangoBot()
-inp=
-target = 4000
-lsb = target &0x7F
-msb = (target >> 7) & 0x7F
-cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(0x0B) + chr(lsb) + chr(msb)
-
-print("writing")
-bot.usb.write(cmd.encode('utf-8'))
-print("reading")
 
 
 
