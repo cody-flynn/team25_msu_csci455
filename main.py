@@ -20,6 +20,14 @@ class TangoBot:
 
     def move_forward():
         print("move forward")
+        target = 4000
+        lsb = target &0x7F
+        msb = (target >> 7) & 0x7F
+        cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(0x04) + chr(lsb) + chr(msb)
+
+        print("writing")
+        self.usb.write(cmd.encode('utf-8'))
+        print("reading")
         return
 
     def move_left():
@@ -92,15 +100,7 @@ class TangoBot:
             print('Enter command:')
             command = input()
             if command == 'w':
-                #move_forward()
-                target = 4000
-                lsb = target &0x7F
-                msb = (target >> 7) & 0x7F
-                cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(0x04) + chr(lsb) + chr(msb)
-
-                print("writing")
-                self.usb.write(cmd.encode('utf-8'))
-                print("reading")
+                move_forward()
 
 
 
