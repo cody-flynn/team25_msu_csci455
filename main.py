@@ -33,7 +33,7 @@ class TangoBot:
         self.motor1=7000
         #self.head_horizontal()
         #time.sleep(0.2)
-        #self.motor2=5900
+        self.motor2=7000
         #self.head_horizontal()
         #time.sleep(0.2)
 
@@ -52,16 +52,16 @@ class TangoBot:
         return
 
     def move_left():
-        print("turn left")
-        return
+        self.motor2-=100;
+        self.send(self.motor2,0x00);
 
     def reverse():
         self.motor1-=200;
         self.send(self.motor1,0x00);
 
     def move_right():
-        print("turn right")
-        return
+        self.motor2-=100;
+        self.send(self.motor2,0x00);
 
     def rotate():
         print("rotate")
