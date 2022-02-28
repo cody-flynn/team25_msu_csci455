@@ -143,7 +143,7 @@ class TangoBot:
         elif command == 'a':
             self.move_left()
         elif command == 's':
-            self.reverse()
+            self.move_backward()
         elif command == 'd':
             self.move_right()
         #elif command == 'f':
