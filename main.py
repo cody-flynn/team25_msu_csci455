@@ -121,7 +121,7 @@ class TangoBot:
     def arm6(self):
         pass
 
-    def command(self):
+    def command(self, command):
         #if __name__ == '__main__':
         #command = 1
         #while command != '0':
