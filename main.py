@@ -38,8 +38,8 @@ class TangoBot:
         #time.sleep(0.2)
 
     def move_forward(self):
-        print("motor f/r: " + str(self.motor1))
         self.motor1+=200;
+        print("motor f/r: " + str(self.motor1))
         self.send(self.motor1,0x00);
 
     def send(self,target,dev):
@@ -53,16 +53,18 @@ class TangoBot:
 
     def move_left(self):
         self.motor2-=100;
-        self.send(self.motor2,0x00);
+        print("motor l/r: " + str(self.motor2))
+        self.send(self.motor2,0x01);
 
     def reverse(self):
-        print("motor f/r: " + str(self.motor1))
         self.motor1-=200;
+        print("motor f/r: " + str(self.motor1))
         self.send(self.motor1,0x00);
 
     def move_right(self):
-        self.motor2-=100;
-        self.send(self.motor2,0x00);
+        self.motor2+=100;
+        print("motor l/r: " + str(self.motor2))
+        self.send(self.motor2,0x01);
 
     def rotate():
         print("rotate")
