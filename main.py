@@ -4,6 +4,8 @@ class TangoBot:
     waist=None
     headv=None
     headh=None
+    motor1=None
+    motor2=None
     def __init__(self):
         import serial, time, sys, keyboard
         try:
@@ -28,9 +30,16 @@ class TangoBot:
         self.headh=5900
         self.head_horizontal()
         time.sleep(0.2)
+        self.motor1=7000
+        #self.head_horizontal()
+        #time.sleep(0.2)
+        #self.motor2=5900
+        #self.head_horizontal()
+        #time.sleep(0.2)
 
     def move_forward(self):
-        pass
+        self.motor1+=200;
+        self.send(self.motor1,0x00);
 
     def send(self,target,dev):
         lsb = target &0x7F
@@ -47,8 +56,8 @@ class TangoBot:
         return
 
     def reverse():
-        print("moving in reverse")
-        return
+        self.motor1-=200;
+        self.send(self.motor1,0x00);
 
     def move_right():
         print("turn right")
