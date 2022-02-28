@@ -162,7 +162,6 @@ class TangoBot:
 mybot = TangoBot()
 command=None
 while command != '0':
-print('Enter command:')
-command = input()
-
-mybot.command()
+    print('Enter command:')
+    command = input()
+    mybot.command()
