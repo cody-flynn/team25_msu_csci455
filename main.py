@@ -38,6 +38,7 @@ class TangoBot:
         #time.sleep(0.2)
 
     def move_forward(self):
+        print("motor f/r: " + str(self.motor1))
         self.motor1+=200;
         self.send(self.motor1,0x00);
 
@@ -55,6 +56,7 @@ class TangoBot:
         self.send(self.motor2,0x00);
 
     def reverse(self):
+        print("motor f/r: " + str(self.motor1))
         self.motor1-=200;
         self.send(self.motor1,0x00);
 
