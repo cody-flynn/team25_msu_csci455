@@ -49,17 +49,16 @@ class TangoBot:
         # Wait for last byte to send
         self.usb.flush()
         self.usb.write(cmd.encode('utf-8'))
-        return
 
-    def move_left():
+    def move_left(self):
         self.motor2-=100;
         self.send(self.motor2,0x00);
 
-    def reverse():
+    def reverse(self):
         self.motor1-=200;
         self.send(self.motor1,0x00);
 
-    def move_right():
+    def move_right(self):
         self.motor2-=100;
         self.send(self.motor2,0x00);
 
