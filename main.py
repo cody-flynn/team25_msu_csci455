@@ -156,9 +156,13 @@ class TangoBot:
         #print("goodbye")
 ###############
 ###############
+import keyboard
 mybot = TangoBot()
-command=None
-while command != '0':
-    print('Enter command:')
-    command = input()
-    mybot.command()
+command = None
+while True:
+    event = keyboard.read_event()
+    if event.event_type == keyboard.KEY_DOWN:
+        key = event.name
+        mybot.command(key)
+        if key == '0':
+            break
