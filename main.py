@@ -21,15 +21,12 @@ class TangoBot:
                 sys.exit(0);
         self.waist=5800
         self.waist_turn()
-        self.wait_init()
+        time.sleep(0.2)
         self.headv=5400
         self.head_virtical()
-        self.wait_init()
+        time.sleep(0.2)
         self.headh=5900
         self.head_horizontal()
-        self.wait_init()
-
-    def wait_init(self):
         time.sleep(0.2)
 
     def move_forward(self):
@@ -155,7 +152,7 @@ class TangoBot:
         elif command == 'l':
             self.head_pan_right()
         else:
-            continue
+            pass
         #print("goodbye")
 ###############
 ###############
