@@ -1,13 +1,11 @@
-import time
-import keyboard
-
-
 class TangoBot:
     # These are the main movement controls
     usb = None
     waist = None
     headv = None
     headh = None
+    motor1 = None
+    motor0 = None
 
     def __init__(self):
         import serial, time, sys, keyboard
@@ -26,26 +24,51 @@ class TangoBot:
                 sys.exit(0);
         self.waist = 5800
         self.waist_turn()
-        self.wait_init()
+        time.sleep(0.2)
         self.headv = 5400
         self.head_virtical()
-        self.wait_init()
+        time.sleep(0.2)
         self.headh = 5900
         self.head_horizontal()
-        self.wait_init()
-
-    def wait_init(self):
         time.sleep(0.2)
+        self.motor1 = 7000
+        # self.head_horizontal()
+        # time.sleep(0.2)
+        self.motor0 = 6000  # synchronised forward/backward
+        # self.head_horizontal()
+        # time.sleep(0.2)
 
     def send(self, target, dev):
         lsb = target & 0x7F
         msb = (target >> 7) & 0x7F
         cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(dev) + chr(lsb) + chr(msb)
-
         # Wait for last byte to send
         self.usb.flush()
         self.usb.write(cmd.encode('utf-8'))
-        return
+
+    def move_forward(self):
+        self.motor1 += 100;
+        self.front_back()
+
+    def move_backward(self):
+        self.motor1 -= 100;
+        self.front_back()
+
+    def front_back(self):
+        print("motor f/r: " + str(self.motor1))
+        self.send(self.motor1, 0x01);
+
+    def move_left(self):
+        self.motor0 -= 100;
+        self.left_right()
+
+    def move_right(self):
+        self.motor0 += 100;
+        self.left_right()
+
+    def left_right(self):
+        print("motor l/r: " + str(self.motor0))
+        self.send(self.motor0, 0x00);
 
     # head pan controls
     def head_pan_left(self):
@@ -110,7 +133,7 @@ class TangoBot:
     def arm6(self):
         pass
 
-    def command(self):
+    def command(self, command):
         # if __name__ == '__main__':
         # command = 1
         # while command != '0':
@@ -121,7 +144,7 @@ class TangoBot:
         elif command == 'a':
             self.move_left()
         elif command == 's':
-            self.reverse()
+            self.move_backward()
         elif command == 'd':
             self.move_right()
         # elif command == 'f':
@@ -140,10 +163,15 @@ class TangoBot:
             self.head_pan_down()
         elif command == 'l':
             self.head_pan_right()
+        else:
+            pass
+        # print("goodbye")
 
 
 ###############
 ###############
+import keyboard
+
 mybot = TangoBot()
 command = None
 while True:
