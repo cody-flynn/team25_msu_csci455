@@ -46,11 +46,11 @@ class TangoBot:
         self.usb.write(cmd.encode('utf-8'))
 
     def move_forward(self):
-        self.motor1+=100;
+        self.motor1-=100;
         self.front_back()
 
     def move_backward(self):
-        self.motor1-=100;
+        self.motor1+=100;
         self.front_back()
 
     def front_back(self):
