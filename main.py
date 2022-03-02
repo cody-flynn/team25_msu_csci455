@@ -30,12 +30,12 @@ class TangoBot:
         self.headh=5900
         self.head_horizontal()
         time.sleep(0.2)
-        self.motor1=7000
-        #self.head_horizontal()
-        #time.sleep(0.2)
+        self.motor1=6000
+        self.front_back()
+        time.sleep(0.2)
         self.motor0=6000 #synchronised forward/backward
-        #self.head_horizontal()
-        #time.sleep(0.2)
+        self.left_right()
+        time.sleep(0.2)
     
     def send(self,target,dev):
         lsb = target &0x7F
