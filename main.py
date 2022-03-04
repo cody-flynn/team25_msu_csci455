@@ -6,6 +6,9 @@ class TangoBot:
     headh=None
     motor1=None
     motor0=None
+    mins=[5000, 5000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000]
+    maxs=[7000, 7000, 9000, 9000, 9000, 9000, 9000, 9000, 9000, 9000, 9000]
+
     def __init__(self):
         import serial, time, sys, keyboard
         try:
@@ -31,13 +34,19 @@ class TangoBot:
         self.head_horizontal()
         time.sleep(0.2)
         self.motor1=6000
+        self.setAcceleration(50,0x01)
         self.front_back()
         time.sleep(0.2)
         self.motor0=6000 #synchronised forward/backward
+        self.setAcceleration(50,0x00)
         self.left_right()
         time.sleep(0.2)
     
     def setTarget(self,target,dev):
+        if target < self.mins[int(dev)]:
+            target = self.mins[int(dev)]
+        elif target > self.maxs[int(dev)]:
+            target = self.maxs[int(dev)]
         lsb = target &0x7F
         msb = (target >> 7) & 0x7F
         #cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(dev) + chr(lsb) + chr(msb)
@@ -69,7 +78,7 @@ class TangoBot:
 
     def front_back(self):
         print("motor f/r: " + str(self.motor1))
-        self.setTarget(self.motor1,0x01);
+        self.setVelocity(self.motor1,0x01);
 
     def move_left(self):
         self.motor0-=100;
@@ -81,16 +90,22 @@ class TangoBot:
 
     def left_right(self):
         print("motor l/r: " + str(self.motor0))
+        self.setVelocity(self.motor0,0x00);
+
+    def stop(self):
+        self.motor0=6000;
+        self.motor1=6000;
         self.setTarget(self.motor0,0x00);
+        self.setTarget(self.motor1,0x01);
 
     # head pan controls
     def head_pan_left(self):
-        self.headh+=100
+        self.headh+=25
         self.head_horizontal()
         return
 
     def head_pan_right(self):
-        self.headh-=100
+        self.headh-=25
         self.head_horizontal()
         return
 
@@ -100,12 +115,12 @@ class TangoBot:
 
     def head_pan_up(self):
         print("pan head up")
-        self.headv+=100
+        self.headv+=25
         self.head_virtical()
 
     def head_pan_down(self):
         print("pan head down")
-        self.headv-=100
+        self.headv-=25
         self.head_virtical()
 
     def head_virtical(self):
@@ -115,12 +130,12 @@ class TangoBot:
     # waist turn controls
     def waist_turn_right(self):
         print("turn waist right")
-        self.waist+=200
+        self.waist+=50
         self.waist_turn()
 
     def waist_turn_left(self):
         print("turn waist left")
-        self.waist-=200
+        self.waist-=50
         self.waist_turn()
         return
 
@@ -166,8 +181,8 @@ class TangoBot:
             self.waist_turn_left()
         elif command == 'c':
             self.waist_turn_right()
-        #elif command == 'x':
-            #self.waist_turn()
+        elif command == 'x':
+            self.stop()
         elif command == 'i':
             self.head_pan_up()
         elif command == 'j':
