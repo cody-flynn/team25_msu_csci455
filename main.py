@@ -8,6 +8,7 @@ class TangoBot:
     motor0=None
     mins=[5000, 5000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000]
     maxs=[7000, 7000, 9000, 9000, 9000, 9000, 9000, 9000, 9000, 9000, 9000]
+    PololuHeader=chr(0xaa) + chr(0x0c)
 
     def __init__(self):
         import serial, time, sys, keyboard
