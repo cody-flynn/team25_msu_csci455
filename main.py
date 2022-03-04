@@ -35,11 +35,11 @@ class TangoBot:
         self.head_horizontal()
         time.sleep(0.2)
         self.motor1=6000
-        self.setAcceleration(50,0x01)
+        self.setAcceleration(0,0x01)
         self.front_back()
         time.sleep(0.2)
         self.motor0=6000 #synchronised forward/backward
-        self.setAcceleration(50,0x00)
+        self.setAcceleration(200,0x00)
         self.left_right()
         time.sleep(0.2)
     
