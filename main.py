@@ -37,13 +37,27 @@ class TangoBot:
         self.left_right()
         time.sleep(0.2)
     
-    def send(self,target,dev):
+    def setTarget(self,target,dev):
         lsb = target &0x7F
         msb = (target >> 7) & 0x7F
-        cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(dev) + chr(lsb) + chr(msb)
-        # Wait for last byte to send
-        self.usb.flush()
-        self.usb.write(cmd.encode('utf-8'))
+        #cmd = chr(0xaa) + chr(0xC) + chr(0x04) + chr(dev) + chr(lsb) + chr(msb)
+        self.send(0x04, dev, lsb, msb)
+
+    def setVelocity(self,vel,dev):
+        lsb = vel &0x7F
+        msb = (vel >> 7) & 0x7F
+        self.send(0x07, dev, lsb, msb)
+        
+
+    def setAcceleration(self,acc,dev):
+        lsb = acc &0x7F
+        msb = (acc >> 7) & 0x7F
+        self.send(0x09, dev, lsb, msb)
+
+    def send(self, cmd, chan, lsb, msb):
+        sb = self.PololuHeader + chr(cmd) + chr(chan) + chr(lsb) + chr(msb)
+        #self.usb.flush()
+        self.usb.write(sb.encode('utf-8'))
 
     def move_forward(self):
         self.motor1-=100;
@@ -55,7 +69,7 @@ class TangoBot:
 
     def front_back(self):
         print("motor f/r: " + str(self.motor1))
-        self.send(self.motor1,0x01);
+        self.setTarget(self.motor1,0x01);
 
     def move_left(self):
         self.motor0-=100;
@@ -67,7 +81,7 @@ class TangoBot:
 
     def left_right(self):
         print("motor l/r: " + str(self.motor0))
-        self.send(self.motor0,0x00);
+        self.setTarget(self.motor0,0x00);
 
     # head pan controls
     def head_pan_left(self):
@@ -82,7 +96,7 @@ class TangoBot:
 
     def head_horizontal(self):
         print("head l/r: " + str(self.headh))
-        self.send(self.headh,0x03)
+        self.setTarget(self.headh,0x03)
 
     def head_pan_up(self):
         print("pan head up")
@@ -96,7 +110,7 @@ class TangoBot:
 
     def head_virtical(self):
         print("head u/d: " + str(self.headv))
-        self.send(self.headv,0x04)
+        self.setTarget(self.headv,0x04)
 
     # waist turn controls
     def waist_turn_right(self):
@@ -111,7 +125,7 @@ class TangoBot:
         return
 
     def waist_turn(self):
-        self.send(self.waist,0x02)
+        self.setTarget(self.waist,0x02)
 
     # arm controls
     def arm1(self):
