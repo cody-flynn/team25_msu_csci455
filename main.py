@@ -20,7 +20,7 @@ class TangoBot:
                 print(self.usb.baudrate)
             except:
                 print("No servo serial ports found")
-                sys.exit(0);
+                sys.exit(0)
         self.waist=5800
         self.waist_turn()
         time.sleep(0.2)
