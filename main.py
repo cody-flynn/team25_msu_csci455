@@ -212,10 +212,12 @@ while listening:
             print("listening") 
             audio = r.listen(source)             
             print("Got audio") 
-            command = r.recognize_google(audio) 
+            command = r.recognize_google(audio)
+            command.lower()
+            command.strip(' ')
             print(command) 
             
-            mybot.command(command)
+            mybot.command(mydict[command])
         except sr.UnknownValueError: 
             print("Don't knoe that werd") 
 
