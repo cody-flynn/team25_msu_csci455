@@ -191,9 +191,9 @@ while listening:
             print("listening") 
             audio = r.listen(source)             
             print("Got audio") 
-            word = r.recognize_google(audio) 
-            print(word) 
-            mybot.command(key)
+            command = r.recognize_google(audio) 
+            print(command) 
+            mybot.command(command)
         except sr.UnknownValueError: 
             print("Don't knoe that werd") 
 
