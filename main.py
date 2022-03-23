@@ -52,13 +52,12 @@ class TangoBot:
         self.motor0=6000 #synchronised forward/backward
         self.left_right()
 
-
     def move_forward(self):
-        self.motor1+=100;
+        self.motor1-=400;
         self.front_back()
 
     def move_backward(self):
-        self.motor1-=100;
+        self.motor1+=400;
         self.front_back()
 
     def front_back(self):
@@ -66,25 +65,36 @@ class TangoBot:
         self.send(self.motor1,0x01);
 
     def move_left(self):
-        self.motor0-=100;
+        self.motor0-=400;
         self.left_right()
 
     def move_right(self):
-        self.motor0+=100;
+        self.motor0+=400;
         self.left_right()
 
     def left_right(self):
         print("motor l/r: " + str(self.motor0))
+        self.motor1=6000
+        self.send(self.motor1,0x01);
+        sleep(0.01)
+        self.send(6000,0x00)
+        sleep(0.01)
         self.send(self.motor0,0x00);
+        sleep(0.3)
+        self.motor1=6000
+        self.motor0=6000
+        self.send(self.motor1,0x01);
+        self.send(self.motor0,0x00)
+        sleep(0.01)
 
     # head pan controls
     def head_pan_left(self):
-        self.headh+=100
+        self.headh+=600
         self.head_horizontal()
         return
 
     def head_pan_right(self):
-        self.headh-=100
+        self.headh-=600
         self.head_horizontal()
         return
 
@@ -94,12 +104,12 @@ class TangoBot:
 
     def head_pan_up(self):
         print("pan head up")
-        self.headv+=100
+        self.headv+=600
         self.head_virtical()
 
     def head_pan_down(self):
         print("pan head down")
-        self.headv-=100
+        self.headv-=600
         self.head_virtical()
 
     def head_virtical(self):
@@ -109,12 +119,12 @@ class TangoBot:
     # waist turn controls
     def waist_turn_right(self):
         print("turn waist right")
-        self.waist+=200
+        self.waist+=600
         self.waist_turn()
 
     def waist_turn_left(self):
         print("turn waist left")
-        self.waist-=200
+        self.waist-=600
         self.waist_turn()
         return
 
@@ -216,8 +226,8 @@ while listening:
             command.lower()
             command.strip(' ')
             print(command) 
-            
-            mybot.command(mydict[command])
+            if command in mydict.keys():
+                mybot.command(mydict[command])
         except sr.UnknownValueError: 
             print("Don't knoe that werd") 
 
