@@ -76,16 +76,16 @@ class TangoBot:
         print("motor l/r: " + str(self.motor0))
         self.motor1=6000
         self.send(self.motor1,0x01);
-        sleep(0.01)
+        time.sleep(0.01)
         self.send(6000,0x00)
-        sleep(0.01)
+        time.sleep(0.01)
         self.send(self.motor0,0x00);
-        sleep(0.3)
+        time.sleep(0.3)
         self.motor1=6000
         self.motor0=6000
         self.send(self.motor1,0x01);
         self.send(self.motor0,0x00)
-        sleep(0.01)
+        time.sleep(0.01)
 
     # head pan controls
     def head_pan_left(self):
