@@ -167,13 +167,35 @@ class TangoBot:
         #print("goodbye")
 ###############
 ###############
-import keyboard
+#import keyboard
 mybot = TangoBot()
 command = None
-while True:
-    event = keyboard.read_event()
-    if event.event_type == keyboard.KEY_DOWN:
-        key = event.name
-        mybot.command(key)
-        if key == '0':
-            break
+#while True:
+#    event = keyboard.read_event()
+#    if event.event_type == keyboard.KEY_DOWN:
+#        key = event.name
+#        mybot.command(key)
+#        if key == '0':
+#            break
+import speech_recognition as sr 
+ 
+ 
+listening = True 
+while listening: 
+    with sr.Microphone() as source: 
+        r= sr.Recognizer() 
+        r.adjust_for_ambient_noise(source) 
+        r.dyanmic_energythreshhold = 3000 
+         
+        try: 
+            print("listening") 
+            audio = r.listen(source)             
+            print("Got audio") 
+            word = r.recognize_google(audio) 
+            print(word) 
+            mybot.command(key)
+        except sr.UnknownValueError: 
+            print("Don't knoe that werd") 
+
+
+
