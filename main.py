@@ -189,8 +189,8 @@ class TangoBot:
         #print("goodbye")
 ###############
 ###############
+mybot = TangoBot()
 #import keyboard
-#mybot = TangoBot()
 #command = None
 #while True:
 #    event = keyboard.read_event()
