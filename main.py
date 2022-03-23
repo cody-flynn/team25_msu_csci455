@@ -73,6 +73,7 @@ class TangoBot:
         self.left_right()
 
     def left_right(self):
+        import time
         print("motor l/r: " + str(self.motor0))
         self.motor1=6000
         self.send(self.motor1,0x01);
