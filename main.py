@@ -53,11 +53,11 @@ class TangoBot:
         self.left_right()
 
     def move_forward(self):
-        self.motor1-=400;
+        self.motor1-=430;
         self.front_back()
 
     def move_backward(self):
-        self.motor1+=400;
+        self.motor1+=430;
         self.front_back()
 
     def front_back(self):
@@ -65,28 +65,29 @@ class TangoBot:
         self.send(self.motor1,0x01);
 
     def move_left(self):
-        self.motor0-=400;
+        self.motor0-=1100;
         self.left_right()
 
     def move_right(self):
-        self.motor0+=400;
+        self.motor0+=1100;
         self.left_right()
 
     def left_right(self):
         import time
         print("motor l/r: " + str(self.motor0))
         self.motor1=6000
-        self.send(self.motor1,0x01);
-        time.sleep(0.01)
+        self.send(self.motor1,0x01)
+        time.sleep(0.1)
         self.send(6000,0x00)
-        time.sleep(0.01)
-        self.send(self.motor0,0x00);
-        time.sleep(0.3)
+        time.sleep(0.1)
+        self.send(self.motor0,0x00)
+        time.sleep(0.4)
         self.motor1=6000
         self.motor0=6000
-        self.send(self.motor1,0x01);
         self.send(self.motor0,0x00)
-        time.sleep(0.01)
+        time.sleep(0.1)
+        self.send(self.motor1,0x01)
+        time.sleep(0.1)
 
     # head pan controls
     def head_pan_left(self):
@@ -189,8 +190,8 @@ class TangoBot:
 ###############
 ###############
 #import keyboard
-mybot = TangoBot()
-command = None
+#mybot = TangoBot()
+#command = None
 #while True:
 #    event = keyboard.read_event()
 #    if event.event_type == keyboard.KEY_DOWN:
@@ -200,10 +201,10 @@ command = None
 #            break
 import speech_recognition as sr 
  
-mydict={"move forward"  : 'w',
-        "move back"     : 's',
-        "move left"     : 'a',
-        "move right"    : 'd',
+mydict={"go forward"    : 'w',
+        "go back"       : 's',
+        "go left"       : 'a',
+        "go right"      : 'd',
         "look left"     : 'j',
         "look right"    : 'l',
         "look up"       : 'i',
