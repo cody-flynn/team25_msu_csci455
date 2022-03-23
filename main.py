@@ -30,12 +30,12 @@ class TangoBot:
         self.headh=5900
         self.head_horizontal()
         time.sleep(0.2)
-        self.motor1=7000
-        #self.head_horizontal()
-        #time.sleep(0.2)
+        self.motor1=6000
+        self.front_back()
+        time.sleep(0.2)
         self.motor0=6000 #synchronised forward/backward
-        #self.head_horizontal()
-        #time.sleep(0.2)
+        self.left_right()
+        time.sleep(0.2)
     
     def send(self,target,dev):
         lsb = target &0x7F
@@ -44,6 +44,14 @@ class TangoBot:
         # Wait for last byte to send
         self.usb.flush()
         self.usb.write(cmd.encode('utf-8'))
+    
+    def stop(self):
+        self.motor1=6000
+        self.front_back()
+        #time.sleep(0.2)
+        self.motor0=6000 #synchronised forward/backward
+        self.left_right()
+
 
     def move_forward(self):
         self.motor1+=100;
@@ -162,6 +170,8 @@ class TangoBot:
             self.head_pan_down()
         elif command == 'l':
             self.head_pan_right()
+        elif command == 'x':
+            self.stop()
         else:
             pass
         #print("goodbye")
@@ -179,7 +189,18 @@ command = None
 #            break
 import speech_recognition as sr 
  
- 
+mydict={"move forward"  : 'w',
+        "move back"     : 's',
+        "move left"     : 'a',
+        "move right"    : 'd',
+        "look left"     : 'j',
+        "look right"    : 'l',
+        "look up"       : 'i',
+        "look down"     : 'k',
+        "turn left"     : 'z',
+        "turn right"    : 'c',
+        "stop"          : 'x'}
+
 listening = True 
 while listening: 
     with sr.Microphone() as source: 
@@ -193,6 +214,7 @@ while listening:
             print("Got audio") 
             command = r.recognize_google(audio) 
             print(command) 
+            
             mybot.command(command)
         except sr.UnknownValueError: 
             print("Don't knoe that werd") 
