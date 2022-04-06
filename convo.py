@@ -48,12 +48,8 @@ class Convo:
 
 # load in test file and test this class
 convo = Convo()
-lines = []
-with open('testing.txt') as f:
-    lines = f.readlines()
 
-#for line in lines:
-#    convo.parse(line)
+convo.parse('testing.txt')
 
 x = ''
 while x != "bye":
