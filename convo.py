@@ -11,7 +11,7 @@ class Dialogue:
 
 # This class contains methods to parse a file into a question/response data structure,
 # and query that data structure with questions and keep record of valid reponses at
-# any given time. 
+# any given time.
 class Convo:
     responses=None #list of Dialogue structures
     valid=None #list of valid questions/Dialogue structures to respond to.
@@ -19,13 +19,27 @@ class Convo:
     def __init__(self):
         pass
 
+
     def parse(self, inp):
         # add in string parsing, remove whitespace, tolower, etc
         pass
 
-    def ask(self,inp):
-        passd
+    def ask(self, inp):
+        pass
         # Modify the valid list each time this is called
 
+
 # load in test file and test this class
+convo = Convo()
+lines = []
+with open('testing.txt') as f:
+    lines = f.readlines()
+
+for line in lines:
+    convo.parse(line)
+
+x = ''
+while x != "bye":
+    x = input("Human: ")
+    convo.ask(x)
 
