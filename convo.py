@@ -164,6 +164,12 @@ class Convo:
                         else:
                             print(random.choice(self.variables[child_rule.response]))
                         return child_rules
+                    elif '$' in child_rule.response:
+                        for key in self.variables:
+                            if key in child_rule.response:
+                                child_rule.response = child_rule.response.replace(key, self.variables[key])
+                                print(child_rule.response)
+                                return child_rules
                     else:
                         print(child_rule.response)
                         return child_rules
@@ -216,8 +222,7 @@ def main():
     x = ''
     child_rules = []
     while x != "bye":
-        x = input("Human: ")
-        # x = "my name is cody"
+        x = input("Human: ").lower()
         child_rules = convo.ask(x, child_rules)
 
 
