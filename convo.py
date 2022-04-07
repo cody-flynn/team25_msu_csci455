@@ -30,6 +30,7 @@ class Convo:
         self.rootNode=QAPair("Q","A",[],None,-1)
         self.valid=[]
         self.variables={}
+        self.response_string = ''
     
     def bracketStrip(self, items, cnt):
         items=items.replace("[","").replace("]","").strip()
@@ -150,7 +151,7 @@ class Convo:
                                         child_rules = child_rule.subrules
                                     else:
                                         child_rules = []
-                                    print(child_rule.response)
+                                    self.response_string = child_rule.response
                                     return child_rules
 
                 if inp == child_rule.query:
@@ -161,17 +162,19 @@ class Convo:
                     if child_rule.response[0] == '$' or child_rule.response[0] == '~':
                         if isinstance(self.variables[child_rule.response], str):
                             print(self.variables[child_rule.response])
+                            self.response_string = self.variables[child_rule.response]
+                            return child_rules
                         else:
-                            print(random.choice(self.variables[child_rule.response]))
-                        return child_rules
+                            self.response_string = random.choice(self.variables[child_rule.response])
+                            return child_rules
                     elif '$' in child_rule.response:
                         for key in self.variables:
                             if key in child_rule.response:
                                 child_rule.response = child_rule.response.replace(key, self.variables[key])
-                                print(child_rule.response)
+                                self.response_string = child_rule.response
                                 return child_rules
                     else:
-                        print(child_rule.response)
+                        self.response_string = child_rule.response
                         return child_rules
 
 
@@ -189,7 +192,7 @@ class Convo:
                         for key in self.variables:
                             if key in rule.response:
                                 rule.response = rule.response.replace(key, self.variables[key])
-                                print(rule.response)
+                                self.response_string = rule.response
                                 return child_rules
 
             if inp == rule.query:
@@ -199,17 +202,18 @@ class Convo:
                     child_rules = []
                 if rule.response[0] == '$' or rule.response[0] == '~':
                     if isinstance(self.variables[rule.response], str):
-                        print(self.variables[rule.response])
+                        self.response_string = self.variables[rule.response]
+                        return child_rules
                     else:
-                        print(random.choice(self.variables[rule.response]))
+                        self.response_string = random.choice(self.variables[rule.response])
+                        return child_rules
                 elif '$' in rule.response:
                     for key in self.variables:
                         if key in rule.response:
                             rule.response = rule.response.replace(key, self.variables[key])
-                            print(rule.response)
-                else:
-                    print(rule.response)
-        return child_rules
+                self.response_string = rule.response
+                return child_rules
+
         # Modify the valid list each time this is called
 
 
@@ -224,6 +228,7 @@ def main():
     while x != "bye":
         x = input("Human: ").lower()
         child_rules = convo.ask(x, child_rules)
+        print("Robot: " + convo.response_string)
 
 
 main()
