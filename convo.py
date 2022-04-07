@@ -135,11 +135,10 @@ class Convo:
                 inp = list(self.variables.keys())[list(self.variables.values()).index(value)]
                 break
 
-        if child_rules != []:
+        if child_rules is not None:
             for child_rule in child_rules:
                 if "_" in child_rule.query:
                     if inp[0:child_rule.query.index("_")] == child_rule.query[0:child_rule.query.index("_")]:
-
                         for key in self.variables:
                             if key in child_rule.response:
                                 self.variables[key] = inp[child_rule.query.index("_"):]
@@ -177,7 +176,6 @@ class Convo:
                         self.response_string = child_rule.response
                         return child_rules
 
-
         for rule in self.rootNode.subrules:
             if "_" in rule.query:
                 if inp[0:rule.query.index("_")] == rule.query[0:rule.query.index("_")]:
@@ -213,14 +211,12 @@ class Convo:
                             rule.response = rule.response.replace(key, self.variables[key])
                 self.response_string = rule.response
                 return child_rules
-
-        # Modify the valid list each time this is called
+        self.response_string = 'Not recognized'
 
 
 # load in test file and test this class
 def main():
     convo = Convo()
-
     convo.parse('testing.txt')
 
     x = ''
