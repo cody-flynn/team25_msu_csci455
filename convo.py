@@ -160,7 +160,6 @@ class Convo:
                         child_rules = []
                     if child_rule.response[0] == '$' or child_rule.response[0] == '~':
                         if isinstance(self.variables[child_rule.response], str):
-                            print(self.variables[child_rule.response])
                             self.response_string = self.variables[child_rule.response]
                             return child_rules
                         else:
