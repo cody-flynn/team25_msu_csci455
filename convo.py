@@ -1,4 +1,6 @@
 import random
+import re
+
 # This class creates the data structure of answers/subanswers
 class QAPair:
     query=None # query to respond to
@@ -134,16 +136,33 @@ class Convo:
 
         if child_rules != []:
             for child_rule in child_rules:
+                if "_" in child_rule.query:
+                    if inp[0:child_rule.query.index("_")] == child_rule.query[0:child_rule.query.index("_")]:
+
+                        for key in self.variables:
+                            if key in child_rule.response:
+                                self.variables[key] = inp[child_rule.query.index("_"):]
+                        if '$' in child_rule.response:
+                            for key in self.variables:
+                                if key in child_rule.response:
+                                    child_rule.response = child_rule.response.replace(key, self.variables[key])
+                                    if len(child_rule.subrules) > 0:
+                                        child_rules = child_rule.subrules
+                                    else:
+                                        child_rules = []
+                                    print(child_rule.response)
+                                    return child_rules
+
                 if inp == child_rule.query:
                     if len(child_rule.subrules) > 0:
                         child_rules = child_rule.subrules
                     else:
                         child_rules = []
-                    if child_rule.response[0] == '$':
-                        print(random.choice(self.variables[child_rule.response]))
-                        return child_rules
-                    elif child_rule.response[0] == '~':
-                        print(random.choice(self.variables[child_rule.response]))
+                    if child_rule.response[0] == '$' or child_rule.response[0] == '~':
+                        if isinstance(self.variables[child_rule.response], str):
+                            print(self.variables[child_rule.response])
+                        else:
+                            print(random.choice(self.variables[child_rule.response]))
                         return child_rules
                     else:
                         print(child_rule.response)
@@ -151,15 +170,37 @@ class Convo:
 
 
         for rule in self.rootNode.subrules:
+            if "_" in rule.query:
+                if inp[0:rule.query.index("_")] == rule.query[0:rule.query.index("_")]:
+                    if len(rule.subrules) > 0:
+                        child_rules = rule.subrules
+                    else:
+                        child_rules = []
+                    for key in self.variables:
+                        if key in rule.response:
+                            self.variables[key] = inp[rule.query.index("_"):]
+                    if '$' in rule.response:
+                        for key in self.variables:
+                            if key in rule.response:
+                                rule.response = rule.response.replace(key, self.variables[key])
+                                print(rule.response)
+                                return child_rules
+
             if inp == rule.query:
                 if len(rule.subrules) > 0:
                     child_rules = rule.subrules
                 else:
                     child_rules = []
-                if rule.response[0] == '$':
-                    print(random.choice(self.variables[rule.response]))
-                elif rule.response[0] == '~':
-                    print(random.choice(self.variables[rule.response]))
+                if rule.response[0] == '$' or rule.response[0] == '~':
+                    if isinstance(self.variables[rule.response], str):
+                        print(self.variables[rule.response])
+                    else:
+                        print(random.choice(self.variables[rule.response]))
+                elif '$' in rule.response:
+                    for key in self.variables:
+                        if key in rule.response:
+                            rule.response = rule.response.replace(key, self.variables[key])
+                            print(rule.response)
                 else:
                     print(rule.response)
         return child_rules
@@ -176,6 +217,7 @@ def main():
     child_rules = []
     while x != "bye":
         x = input("Human: ")
+        # x = "my name is cody"
         child_rules = convo.ask(x, child_rules)
 
 
