@@ -142,6 +142,9 @@ class Convo:
                     if child_rule.response[0] == '$':
                         print(random.choice(self.variables[child_rule.response]))
                         return child_rules
+                    elif child_rule.response[0] == '~':
+                        print(random.choice(self.variables[child_rule.response]))
+                        return child_rules
                     else:
                         print(child_rule.response)
                         return child_rules
@@ -154,6 +157,8 @@ class Convo:
                 else:
                     child_rules = []
                 if rule.response[0] == '$':
+                    print(random.choice(self.variables[rule.response]))
+                elif rule.response[0] == '~':
                     print(random.choice(self.variables[rule.response]))
                 else:
                     print(rule.response)
