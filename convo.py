@@ -126,20 +126,38 @@ class Convo:
 
         return
 
-    def ask(self, inp):
+    def ask(self, inp, child_rules):
         for value in self.variables.values():
             if inp in value:
-                print("found in dict ")
-                print(list(self.variables.keys())[list(self.variables.values()).index(value)])
                 inp = list(self.variables.keys())[list(self.variables.values()).index(value)]
                 break
 
+        if child_rules != []:
+            for child_rule in child_rules:
+                if inp == child_rule.query:
+                    if len(child_rule.subrules) > 0:
+                        child_rules = child_rule.subrules
+                    else:
+                        child_rules = []
+                    if child_rule.response[0] == '$':
+                        print(random.choice(self.variables[child_rule.response]))
+                        return child_rules
+                    else:
+                        print(child_rule.response)
+                        return child_rules
+
+
         for rule in self.rootNode.subrules:
             if inp == rule.query:
+                if len(rule.subrules) > 0:
+                    child_rules = rule.subrules
+                else:
+                    child_rules = []
                 if rule.response[0] == '$':
                     print(random.choice(self.variables[rule.response]))
                 else:
                     print(rule.response)
+        return child_rules
         # Modify the valid list each time this is called
 
 
@@ -150,9 +168,10 @@ def main():
     convo.parse('testing.txt')
 
     x = ''
+    child_rules = []
     while x != "bye":
         x = input("Human: ")
-        convo.ask(x)
+        child_rules = convo.ask(x, child_rules)
 
 
 main()
