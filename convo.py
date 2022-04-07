@@ -1,3 +1,4 @@
+import random
 # This class creates the data structure of answers/subanswers
 class QAPair:
     query=None # query to respond to
@@ -57,7 +58,7 @@ class Convo:
                     if len(c) != 2:
                         print("Syntax Error Definition: "+line)
                         continue
-                    c[0]="$"+c[0].strip()[1:] # remove whitespace and leading ~, add $ var character
+                    c[0]=c[0].strip()[0:] # remove whitespace and leading ~, add $ var character
                     
                     if c[1].count("[") != 1:
                         print("Syntax Error: Missing \"[\":"+line)
@@ -126,7 +127,19 @@ class Convo:
         return
 
     def ask(self, inp):
-        pass
+        for value in self.variables.values():
+            if inp in value:
+                print("found in dict ")
+                print(list(self.variables.keys())[list(self.variables.values()).index(value)])
+                inp = list(self.variables.keys())[list(self.variables.values()).index(value)]
+                break
+
+        for rule in self.rootNode.subrules:
+            if inp == rule.query:
+                if rule.response[0] == '$':
+                    print(random.choice(self.variables[rule.response]))
+                else:
+                    print(rule.response)
         # Modify the valid list each time this is called
 
 
@@ -140,4 +153,6 @@ def main():
     while x != "bye":
         x = input("Human: ")
         convo.ask(x)
-#main()
+
+
+main()
