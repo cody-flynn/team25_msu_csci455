@@ -18,16 +18,16 @@ class QAPair:
 # This class contains methods to parse a file into a query/response data structure,
 # and query that data structure with querys and keep record of valid reponses at
 # any given time.
-class Convo:
+class Conversation:
     import random
     import re
     rootNode=None
-    valid=None #list of valid querys/QA structures to respond to.
+    child_rules=None #list of valid querys/QA structures to respond to.
     variables=None
 
     def __init__(self):
         self.rootNode=QAPair("Q","A",[],None,-1)
-        self.valid=[]
+        self.child_rules=[]
         self.variables={}
         self.response_string = ''
     
@@ -128,14 +128,14 @@ class Convo:
 
         return
 
-    def ask(self, inp, child_rules):
+    def ask(self, inp):
         for value in self.variables.values():
             if inp in value:
                 inp = list(self.variables.keys())[list(self.variables.values()).index(value)]
                 break
 
-        if child_rules is not None:
-            for child_rule in child_rules:
+        if self.child_rules is not None:
+            for child_rule in self.child_rules:
                 if "_" in child_rule.query:
                     if inp[0:child_rule.query.index("_")] == child_rule.query[0:child_rule.query.index("_")]:
                         for key in self.variables:
@@ -146,41 +146,41 @@ class Convo:
                                 if key in child_rule.response:
                                     child_rule.response = child_rule.response.replace(key, self.variables[key])
                                     if len(child_rule.subrules) > 0:
-                                        child_rules = child_rule.subrules
+                                        self.child_rules = child_rule.subrules
                                     else:
-                                        child_rules = []
+                                        self.child_rules = []
                                     self.response_string = child_rule.response
-                                    return child_rules
+                                    return self.child_rules
 
                 if inp == child_rule.query:
                     if len(child_rule.subrules) > 0:
-                        child_rules = child_rule.subrules
+                        self.child_rules = child_rule.subrules
                     else:
-                        child_rules = []
+                        self.child_rules = []
                     if child_rule.response[0] == '$' or child_rule.response[0] == '~':
                         if isinstance(self.variables[child_rule.response], str):
                             self.response_string = self.variables[child_rule.response]
-                            return child_rules
+                            return self.child_rules
                         else:
                             self.response_string = random.choice(self.variables[child_rule.response])
-                            return child_rules
+                            return self.child_rules
                     elif '$' in child_rule.response:
                         for key in self.variables:
                             if key in child_rule.response:
                                 child_rule.response = child_rule.response.replace(key, self.variables[key])
                                 self.response_string = child_rule.response
-                                return child_rules
+                                return self.child_rules
                     else:
                         self.response_string = child_rule.response
-                        return child_rules
+                        return self.child_rules
 
         for rule in self.rootNode.subrules:
             if "_" in rule.query:
                 if inp[0:rule.query.index("_")] == rule.query[0:rule.query.index("_")]:
                     if len(rule.subrules) > 0:
-                        child_rules = rule.subrules
+                        self.child_rules = rule.subrules
                     else:
-                        child_rules = []
+                        self.child_rules = []
                     for key in self.variables:
                         if key in rule.response:
                             self.variables[key] = inp[rule.query.index("_"):]
@@ -189,26 +189,26 @@ class Convo:
                             if key in rule.response:
                                 rule.response = rule.response.replace(key, self.variables[key])
                                 self.response_string = rule.response
-                                return child_rules
+                                return self.child_rules
 
             if inp == rule.query:
                 if len(rule.subrules) > 0:
-                    child_rules = rule.subrules
+                    self.child_rules = rule.subrules
                 else:
-                    child_rules = []
+                    self.child_rules = []
                 if rule.response[0] == '$' or rule.response[0] == '~':
                     if isinstance(self.variables[rule.response], str):
                         self.response_string = self.variables[rule.response]
-                        return child_rules
+                        return self.child_rules
                     else:
                         self.response_string = random.choice(self.variables[rule.response])
-                        return child_rules
+                        return self.child_rules
                 elif '$' in rule.response:
                     for key in self.variables:
                         if key in rule.response:
                             rule.response = rule.response.replace(key, self.variables[key])
                 self.response_string = rule.response
-                return child_rules
+                return self.child_rules
         self.response_string = 'Not recognized'
 
 
@@ -218,10 +218,10 @@ class Convo:
 #    convo.parse('testing.txt')
 #
 #    x = ''
-#    child_rules = []
+#    self.child_rules = []
 #    while x != "bye":
 #        x = input("Human: ").lower()
-#        child_rules = convo.ask(x, child_rules)
+#        self.child_rules = convo.ask(x, self.child_rules)
 #        print("Robot: " + convo.response_string)
 #
 #
