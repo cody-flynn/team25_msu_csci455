@@ -25,14 +25,16 @@ def main():
             "turn left"     : 'z',
             "turn right"    : 'c',
             "stop"          : 'x'}
+# load in test file and test this class                                                                             
     convo = Convo()
-
     convo.parse('testing.txt')
 
     x = ''
+    child_rules = []
     while x != "bye":
-        x = input("Human: ")
-        convo.ask(x)
+        x = input("Human: ").lower()
+        child_rules = convo.ask(x, child_rules)
+        print("Robot: " + convo.response_string)
     
     listening = True 
     while listening: 

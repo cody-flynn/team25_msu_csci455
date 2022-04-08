@@ -19,8 +19,6 @@ class QAPair:
 # and query that data structure with querys and keep record of valid reponses at
 # any given time.
 class Conversation:
-    import random
-    import re
     rootNode=None
     child_rules=None #list of valid querys/QA structures to respond to.
     variables=None
@@ -60,7 +58,7 @@ class Conversation:
                     if len(c) != 2:
                         print("Syntax Error Definition: "+line)
                         continue
-                    c[0]=c[0].strip()[0:] # remove whitespace and leading ~, add $ var character
+                    c[0]=c[0].strip() 
                     
                     if c[1].count("[") != 1:
                         print("Syntax Error: Missing \"[\":"+line)
@@ -98,7 +96,7 @@ class Conversation:
                     if "$" not in c[2]: # if found, add new variable
                         print("Missing variable: " + line)
                         continue
-                    self.variables[c[2][c[2].index("$"):].split()[0]] = "" # make empty variable
+                    self.variables[c[2][c[2].index("$"):].split()[0]] = "unknown" # make default unknown
 
                 c[2]=c[2].strip()
                 bracketNum=c[2].count("[")
@@ -112,12 +110,8 @@ class Conversation:
                     for i in range(bracketNum):
                         st=c[2].index("[",st+2) # 2 needed because we add $ before, incrementing all values
                         en=c[2].index("]",st+1)
-                        print(st)
-                        print(en)
                         tempBstr=c[2][st:en+1]
-                        print(tempBstr)
                         tempNoSp=tempBstr.replace(" ","")
-                        print(tempNoSp)
                         self.variables["$"+tempNoSp]=self.bracketStrip(tempBstr,tempBstr.count("\""))
                         c[2]=c[2][0:st]+"$"+tempNoSp+c[2][en+1:]
 
@@ -129,87 +123,101 @@ class Conversation:
         return
 
     def ask(self, inp):
-        for value in self.variables.values():
-            if inp in value:
-                inp = list(self.variables.keys())[list(self.variables.values()).index(value)]
-                break
+        import random
+        import re
+        #for value in self.variables.values():
+        #    if inp in value:
+        #        inp = list(self.variables.keys())[list(self.variables.values()).index(value)]
+        #        break
 
-        if self.child_rules is not None:
-            for child_rule in self.child_rules:
-                if "_" in child_rule.query:
-                    if inp[0:child_rule.query.index("_")] == child_rule.query[0:child_rule.query.index("_")]:
-                        for key in self.variables:
-                            if key in child_rule.response:
-                                self.variables[key] = inp[child_rule.query.index("_"):]
-                        if '$' in child_rule.response:
-                            for key in self.variables:
-                                if key in child_rule.response:
-                                    child_rule.response = child_rule.response.replace(key, self.variables[key])
-                                    if len(child_rule.subrules) > 0:
-                                        self.child_rules = child_rule.subrules
-                                    else:
-                                        self.child_rules = []
-                                    self.response_string = child_rule.response
-                                    return self.child_rules
+#        if self.child_rules is not None:
+#            for child_rule in self.child_rules:
+#                if "_" in child_rule.query:
+#                    if inp[0:child_rule.query.index("_")] == child_rule.query[0:child_rule.query.index("_")]:
+#                        for key in self.variables:
+#                            if key in child_rule.response:
+#                                self.variables[key] = inp.split()[3]
+#                        if '$' in child_rule.response:
+#                            for key in self.variables:
+#                                if key in child_rule.response:
+#                                    child_rule.response = child_rule.response.replace(key, self.variables[key])
+#                                    if len(child_rule.subrules) > 0:
+#                                        self.child_rules = child_rule.subrules
+#                                    else:
+#                                        self.child_rules = []
+#                                    self.response_string = child_rule.response
+#                                    return self.child_rules
+#
+#                if inp == child_rule.query:
+#                    if len(child_rule.subrules) > 0:
+#                        self.child_rules = child_rule.subrules
+#                    else:
+#                        self.child_rules = []
+#                    if child_rule.response[0] == '$' or child_rule.response[0] == '~':
+#                        if isinstance(self.variables[child_rule.response], str):
+#                            self.response_string = self.variables[child_rule.response]
+#                            return self.child_rules
+#                        else:
+#                            self.response_string = random.choice(self.variables[child_rule.response])
+#                            return self.child_rules
+#                    elif '$' in child_rule.response:
+#                        for key in self.variables:
+#                            if key in child_rule.response:
+#                                child_rule.response = child_rule.response.replace(key, self.variables[key])
+#                                self.response_string = child_rule.response
+#                                return self.child_rules
+#                    else:
+#                        self.response_string = child_rule.response
+#                        return self.child_rules
+        self.response_string = 'Not recognized'
 
-                if inp == child_rule.query:
-                    if len(child_rule.subrules) > 0:
-                        self.child_rules = child_rule.subrules
-                    else:
-                        self.child_rules = []
-                    if child_rule.response[0] == '$' or child_rule.response[0] == '~':
-                        if isinstance(self.variables[child_rule.response], str):
-                            self.response_string = self.variables[child_rule.response]
-                            return self.child_rules
-                        else:
-                            self.response_string = random.choice(self.variables[child_rule.response])
-                            return self.child_rules
-                    elif '$' in child_rule.response:
-                        for key in self.variables:
-                            if key in child_rule.response:
-                                child_rule.response = child_rule.response.replace(key, self.variables[key])
-                                self.response_string = child_rule.response
-                                return self.child_rules
-                    else:
-                        self.response_string = child_rule.response
-                        return self.child_rules
-
-        for rule in self.rootNode.subrules:
+        for rule in self.child_rules+self.rootNode.subrules:
             if "_" in rule.query:
                 if inp[0:rule.query.index("_")] == rule.query[0:rule.query.index("_")]:
-                    if len(rule.subrules) > 0:
-                        self.child_rules = rule.subrules
-                    else:
-                        self.child_rules = []
+                    self.child_rules = rule.subrules
                     for key in self.variables:
                         if key in rule.response:
-                            self.variables[key] = inp[rule.query.index("_"):]
+                            self.variables[key] = inp.split()[rule.query.split().index("_")]
+
                     if '$' in rule.response:
                         for key in self.variables:
                             if key in rule.response:
-                                rule.response = rule.response.replace(key, self.variables[key])
+                                self.response_string = rule.response.replace(key, self.variables[key])
+                                self.child_rules=rule.subrules
+                                break
+            if "~" in rule.query:
+                for el in self.variables.keys():
+                    if "~" in el:
+                        if inp in self.variables[el]:
+                            if '$' in rule.response:
+                                for key in self.variables:
+                                    if key in rule.response:
+                                        self.child_rules=rule.subrules
+                                        self.response_string = rule.response.replace(key, random.choice(self.variables[key]))
+                                        break
+                            else:
+                                self.child_rules=rule.subrules
                                 self.response_string = rule.response
-                                return self.child_rules
+                                break
+
 
             if inp == rule.query:
-                if len(rule.subrules) > 0:
-                    self.child_rules = rule.subrules
-                else:
-                    self.child_rules = []
+                self.child_rules = rule.subrules
                 if rule.response[0] == '$' or rule.response[0] == '~':
                     if isinstance(self.variables[rule.response], str):
                         self.response_string = self.variables[rule.response]
-                        return self.child_rules
+                        break
                     else:
                         self.response_string = random.choice(self.variables[rule.response])
-                        return self.child_rules
+                        break
                 elif '$' in rule.response:
                     for key in self.variables:
                         if key in rule.response:
-                            rule.response = rule.response.replace(key, self.variables[key])
-                self.response_string = rule.response
-                return self.child_rules
-        self.response_string = 'Not recognized'
+                            self.response_string = rule.response.replace(key, self.variables[key])
+                            break
+                else:
+                    self.response_string = rule.response
+                    break
 
 
 # load in test file and test this class
