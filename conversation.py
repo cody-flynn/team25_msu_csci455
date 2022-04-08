@@ -18,7 +18,7 @@ class QAPair:
 # This class contains methods to parse a file into a query/response data structure,
 # and query that data structure with querys and keep record of valid reponses at
 # any given time.
-class Convo:
+class Conversation:
     rootNode=None
     valid=None #list of valid querys/QA structures to respond to.
     variables=None
@@ -131,13 +131,13 @@ class Convo:
 
 
 # load in test file and test this class
-def main():
-    convo = Convo()
-
-    convo.parse('testing.txt')
-
-    x = ''
-    while x != "bye":
-        x = input("Human: ")
-        convo.ask(x)
+#def main():
+#    convo = Convo()
+#
+#    convo.parse('testing.txt')
+#
+#    x = ''
+#    while x != "bye":
+#        x = input("Human: ")
+#        convo.ask(x)
 #main()
