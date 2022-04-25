@@ -104,7 +104,7 @@ class GUI(App):
             self.list_valid=False
             ret= self.command_list
             self.command_list = []
-            self.del_command_list()
+            self.del_command_list(0)
             return ret
         return None
 
