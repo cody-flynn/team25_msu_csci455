@@ -39,7 +39,7 @@ def main():
                 print(command) 
                 if command in mydict.keys():
                     mybot.command(mydict[command])
-                    #time.sleep(1)
+                    time.sleep(.3)
                 if command == "bye":
                     c = "bye"
 
