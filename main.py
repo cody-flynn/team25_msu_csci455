@@ -2,7 +2,7 @@ from conversation import Conversation
 from tangoBot import TangoBot
 from gui import GUI
 import speech_recognition as sr 
-
+import time
 def main():
 
     mybot = TangoBot()
@@ -39,6 +39,7 @@ def main():
                 print(command) 
                 if command in mydict.keys():
                     mybot.command(mydict[command])
+                    time.sleep(1)
                 if command == "bye":
                     c = "bye"
             gui.run()
