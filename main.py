@@ -1,6 +1,6 @@
-from conversation import Conversation
-from tangoBot import TangoBot
-from gui import Gui
+import conversation as Conversation
+import tangoBot as TangoBot
+import gui as Gui
 import speech_recognition as sr 
 
 def main():
