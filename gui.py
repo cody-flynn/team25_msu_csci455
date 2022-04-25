@@ -1,8 +1,8 @@
 import kivy
 kivy.require('2.1.0') # replace with your current kivy version !
 from kivy.config import Config
-Config.set('graphics', 'width', '300')
-Config.set('graphics', 'height', '200')
+Config.set('graphics', 'width', '600')
+Config.set('graphics', 'height', '400')
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivy.uix.label import Label
