@@ -107,4 +107,4 @@ class GUI(App):
         return self.screen
 
 
-GUI().run()
+#GUI().run()
