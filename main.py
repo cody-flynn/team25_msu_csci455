@@ -1,6 +1,7 @@
 def main():
     import conversation as Conversation
     import tangoBot as TangoBot
+    import gui as Gui
 
     mybot = TangoBot()
     #import keyboard
@@ -25,36 +26,48 @@ def main():
             "turn left"     : 'z',
             "turn right"    : 'c',
             "stop"          : 'x'}
-# load in test file and test this class                                                                             
-    convo = Convo()
-    convo.parse('testing.txt')
-
-    x = ''
-    child_rules = []
+    gui=Gui()
     while x != "bye":
-        x = input("Human: ").lower()
-        child_rules = convo.ask(x, child_rules)
-        print("Robot: " + convo.response_string)
-    
-    listening = True 
-    while listening: 
-        with sr.Microphone() as source: 
-            r= sr.Recognizer() 
-            r.adjust_for_ambient_noise(source) 
-            r.dyanmic_energythreshhold = 3000 
-             
-            try: 
-                print("listening") 
-                audio = r.listen(source)             
-                print("Got audio") 
-                command = r.recognize_google(audio)
+        x = gui.get_response()
+        if x:
+            for command in x:
                 command.lower()
                 command.strip(' ')
                 print(command) 
                 if command in mydict.keys():
                     mybot.command(mydict[command])
-            except sr.UnknownValueError: 
-                print("Don't knoe that werd") 
+
+
+# load in test file and test this class                                                                             
+    #convo = Convo()
+    #convo.parse('testing.txt')
+
+    #x = ''
+    #child_rules = []
+    #while x != "bye":
+    #    x = input("Human: ").lower()
+    #    child_rules = convo.ask(x, child_rules)
+    #    print("Robot: " + convo.response_string)
+    
+    #listening = True 
+    #while listening: 
+    #    with sr.Microphone() as source: 
+    #        r= sr.Recognizer() 
+    #        r.adjust_for_ambient_noise(source) 
+    #        r.dyanmic_energythreshhold = 3000 
+    #         
+    #        try: 
+    #            print("listening") 
+    #            audio = r.listen(source)             
+    #            print("Got audio") 
+    #            command = r.recognize_google(audio)
+    #            command.lower()
+    #            command.strip(' ')
+    #            print(command) 
+    #            if command in mydict.keys():
+    #                mybot.command(mydict[command])
+    #        except sr.UnknownValueError: 
+    #            print("Don't knoe that werd") 
 
 
 
