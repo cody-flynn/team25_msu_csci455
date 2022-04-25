@@ -1,7 +1,9 @@
+from conversation import Conversation
+from tangoBot import TangoBot
+from gui import Gui
+import speech_recognition as sr 
+
 def main():
-    import conversation as Conversation
-    import tangoBot as TangoBot
-    import gui as Gui
 
     mybot = TangoBot()
     #import keyboard
@@ -13,7 +15,6 @@ def main():
     #        mybot.command(key)
     #        if key == '0':
 
-    import speech_recognition as sr 
      
     mydict={"go forward"    : 'w',
             "go back"       : 's',
