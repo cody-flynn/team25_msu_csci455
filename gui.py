@@ -95,7 +95,8 @@ class GUI(App):
     
     def submitFunc(self, win):
         self.list_valid=True
-        App.get_running_app().stop()
+        # App.get_running_app().stop()
+        exit()
 
     def get_response(self):
         if self.list_valid:
