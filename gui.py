@@ -92,7 +92,7 @@ class GUI(App):
     def submitFunc(self, win):
         self.list_valid=True
 
-    def get_response(self, win):
+    def get_response(self):
         if self.list_valid:
             self.list_valid=False
             return self.command_list
