@@ -28,8 +28,8 @@ def main():
             "stop"          : 'x'}
     gui=Gui()
     while x != "bye":
-        x = gui.get_response()
-        if x:
+        if gui.list_valid:
+            x = gui.get_response()
             for command in x:
                 command.lower()
                 command.strip(' ')

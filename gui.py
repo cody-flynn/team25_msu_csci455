@@ -10,11 +10,13 @@ class TestApp(App):
     screen=None
     timeline=None
     mylist=None
+    list_valid=None
     def __init__(self,**kwargs):
         super(TestApp,self).__init__(**kwargs)
         self.screen=BoxLayout(orientation='vertical')
         self.mylist=[]
         self.command_list = []
+        self.list_valid=False
         self.timeline=BoxLayout(orientation='horizontal')
         # initialize buttons
         self.submit = Button(text="submit")
@@ -30,7 +32,7 @@ class TestApp(App):
         self.btn_8 = Button(text="stop")
 
         self.screen.add_widget(self.submit)
-        self.submit.bind(on_press=partial(self.get_response))
+        self.submit.bind(on_press=partial(self.submitFunc))
 
         self.screen.add_widget(self.clear)
         self.clear.bind(on_press=partial(self.del_command_list))
@@ -83,11 +85,15 @@ class TestApp(App):
         for i in range(8):
             self.mylist[i].text = "empty"
         print(self.command_list)
+    
+    def submitFunc(self, win):
+        self.list_valid=True
 
     def get_response(self, win):
-        return self.command_list
-
-
+        if self.list_valid:
+            self.list_valid=False
+            return self.command_list
+        return None
 
     def build(self):
         return self.screen
