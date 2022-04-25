@@ -84,8 +84,12 @@ class GUI(App):
 
     # clear button calls this, deletes commands and empties timeline
     def del_command_list(self, win):
-        self.command_list = []
-        for i in range(8):
+        try:
+            self.command_list.pop()
+        except:
+            print("empty command list")
+
+        for i in range(len(self.command_list), 8):
             self.mylist[i].text = "empty"
         print(self.command_list)
     
@@ -102,4 +106,4 @@ class GUI(App):
         return self.screen
 
 
-#GUI().run()
+GUI().run()
