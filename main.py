@@ -29,7 +29,8 @@ def main():
             "stop"          : 'x'}
     gui=GUI()
     gui.run()
-    while x != "bye":
+    c=""
+    while c != "bye":
         if gui.list_valid:
             x = gui.get_response()
             for command in x:
@@ -38,6 +39,8 @@ def main():
                 print(command) 
                 if command in mydict.keys():
                     mybot.command(mydict[command])
+                if command == "bye":
+                    c = "bye"
 
 
 # load in test file and test this class                                                                             
