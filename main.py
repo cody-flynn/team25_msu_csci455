@@ -41,6 +41,7 @@ def main():
                     mybot.command(mydict[command])
                 if command == "bye":
                     c = "bye"
+            gui.run()
 
 
 # load in test file and test this class                                                                             
