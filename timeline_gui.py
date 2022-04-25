@@ -16,7 +16,10 @@ class TestApp(App):
         self.mylist=[]
         self.command_list = []
         self.timeline=BoxLayout(orientation='horizontal')
+        # initialize buttons
         self.submit = Button(text="submit")
+        self.clear = Button(text="clear")
+
         self.btn_1 = Button(text="go forward")
         self.btn_2 = Button(text="go back")
         self.btn_3 = Button(text="go left")
@@ -29,6 +32,10 @@ class TestApp(App):
         self.screen.add_widget(self.submit)
         self.submit.bind(on_press=partial(self.get_response))
 
+        self.screen.add_widget(self.clear)
+        self.clear.bind(on_press=partial(self.del_command_list))
+
+        # function buttons move to timeline and are added to command list on click
         self.screen.add_widget(self.btn_1)
         self.btn_1.bind(on_press=partial(self.update_label))
         self.btn_1.bind(on_press=partial(self.set_command_list))
@@ -70,8 +77,17 @@ class TestApp(App):
         self.command_list.append(win.text)
         print(self.command_list)
 
+    # clear button calls this, deletes commands and empties timeline
+    def del_command_list(self, win):
+        self.command_list = []
+        for i in range(8):
+            self.mylist[i].text = "empty"
+        print(self.command_list)
+
     def get_response(self, win):
         return self.command_list
+
+
 
     def build(self):
         return self.screen
