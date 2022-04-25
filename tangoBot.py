@@ -64,12 +64,12 @@ class TangoBot:
         print("motor f/r: " + str(self.motor1))
         self.send(self.motor1,0x01);
 
-    def move_left(self):
-        self.motor0-=1100;
+    def move_right(self):
+        self.motor0-=1600;
         self.left_right()
 
-    def move_right(self):
-        self.motor0+=1100;
+    def move_left(self):
+        self.motor0+=1600;
         self.left_right()
 
     def left_right(self):
