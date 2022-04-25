@@ -96,12 +96,16 @@ class GUI(App):
     def submitFunc(self, win):
         self.list_valid=True
         # App.get_running_app().stop()
-        exit()
+
+        self.stop()
 
     def get_response(self):
         if self.list_valid:
             self.list_valid=False
-            return self.command_list
+            ret= self.command_list
+            self.command_list = []
+            self.del_command_list(0)
+            return ret
         return None
 
     def build(self):
