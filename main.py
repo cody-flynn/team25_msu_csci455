@@ -28,9 +28,9 @@ def main():
             "turn right"    : 'c',
             "stop"          : 'x'}
     gui=GUI()
-    gui.run()
     c=""
     while c != "bye":
+        gui.run()
         if gui.list_valid:
             x = gui.get_response()
             for command in x:
@@ -42,7 +42,6 @@ def main():
                     time.sleep(1)
                 if command == "bye":
                     c = "bye"
-            gui.run()
 
 
 # load in test file and test this class                                                                             
