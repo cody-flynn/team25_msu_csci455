@@ -69,5 +69,5 @@ def main():
     #        except sr.UnknownValueError: 
     #            print("Don't knoe that werd") 
 
-
+main()
 
