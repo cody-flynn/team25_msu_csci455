@@ -9,13 +9,13 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from functools import partial
 
-class TestApp(App):
+class GUI(App):
     screen=None
     timeline=None
     mylist=None
     list_valid=None
     def __init__(self,**kwargs):
-        super(TestApp,self).__init__(**kwargs)
+        super(GUI,self).__init__(**kwargs)
         self.screen=BoxLayout(orientation='vertical')
         self.mylist=[]
         self.command_list = []
@@ -102,4 +102,4 @@ class TestApp(App):
         return self.screen
 
 
-TestApp().run()
+#GUI().run()
