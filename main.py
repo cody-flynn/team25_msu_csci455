@@ -27,7 +27,8 @@ def main():
             "turn left"     : 'z',
             "turn right"    : 'c',
             "stop"          : 'x'}
-    gui=Gui()
+    gui=GUI()
+    gui.run()
     while x != "bye":
         if gui.list_valid:
             x = gui.get_response()
